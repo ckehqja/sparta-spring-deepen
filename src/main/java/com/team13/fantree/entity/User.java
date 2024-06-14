@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -40,6 +41,7 @@ public class User extends Timestamped {
 	@Enumerated(EnumType.STRING)
 	private UserStatusEnum status;
 
+	@Setter
 	private String refreshToken;
 
 	private LocalDateTime statusUpdate;
