@@ -49,6 +49,7 @@ public class PostService {
 		return postsListDto;
 	}
 
+	// @Transactional
 	public List<PostResponseDto> findAllPostsLikes(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 
