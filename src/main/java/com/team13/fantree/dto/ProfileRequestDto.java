@@ -1,9 +1,11 @@
 package com.team13.fantree.dto;
 
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ProfileRequestDto {
 	private String password;
 

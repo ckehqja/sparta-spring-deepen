@@ -37,6 +37,7 @@ public class PostService {
 		return new PostResponseDto(post);
 	}
 
+	@Transactional
 	public List<PostResponseDto> findAllPosts(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 
@@ -49,7 +50,7 @@ public class PostService {
 		return postsListDto;
 	}
 
-	// @Transactional
+	@Transactional
 	public List<PostResponseDto> findAllPostsLikes(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 
@@ -95,6 +96,7 @@ public class PostService {
 		return "성공했습니다";
 	}
 
+	@Transactional
 	public List<PostResponseDto> findAllPostsPeriod(
 		LocalDate startDate, LocalDate endDate, int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);

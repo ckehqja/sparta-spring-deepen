@@ -51,8 +51,8 @@ public class UserService {
 		userRepository.save(user);
 
 		//가입시 유저 정보를 다시 확인 후 인증 메일 발송
-		user = userRepository.findById(user.getId())
-			.orElseThrow(() -> new NotFoundException(UserErrorCode.USER_NOT_FOUND));
+		// user = userRepository.findById(user.getId())
+		// 	.orElseThrow(() -> new NotFoundException(UserErrorCode.USER_NOT_FOUND));
 		mailSendService.joinEmail(user.getEmail());
 
 		log.info("인증 요청 유저 확인 : {}", user.getUsername());
