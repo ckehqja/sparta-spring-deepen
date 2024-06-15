@@ -23,4 +23,22 @@ class CommentTest {
 
 	}
 
+	@DisplayName("setContent")
+	@Test
+	void test2() {
+		// given
+		Post post = new Post();
+		User user = new User();
+
+		Comment comment = new Comment(post, user, "dd");
+
+		// when
+		comment.setContent("set");
+
+		// then
+		assertEquals(comment.getContent(), "set");
+
+	}
+
+
 }
