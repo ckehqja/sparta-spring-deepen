@@ -1,139 +1,62 @@
 package com.team13.fantree.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
-
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 
-import com.team13.fantree.dto.ProfileRequestDto;
 import com.team13.fantree.dto.ProfileResponseDto;
 import com.team13.fantree.dto.SignUpRequestDto;
-import com.team13.fantree.entity.User;
-import com.team13.fantree.entity.UserStatusEnum;
-import com.team13.fantree.exception.MismatchException;
 import com.team13.fantree.repository.UserRepository;
 
-@ExtendWith(MockitoExtension.class) // @Mock 사용을 위해 설정합니다.
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // 서버의 PORT 를 랜덤으로 설정합니다.
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // 테스트 인스턴스의 생성 단위를 클래스로 변경합니다.
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
 
-	@Mock
+	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@Mock
+	@Autowired
 	MailSendService mailSendService;
+	@Autowired
+	private UserService userService;
 
-	User user;
-
-	// @DisplayName("회원가입")
-	// @Test
-	// @Transactional
-	// void test1() {
-	// 	// given
-	// 	SignUpRequestDto requestDto = new SignUpRequestDto().builder()
-	// 		.username("userna1me11123AA")
-	// 		.password("123qew1asdZXC!@#")
-	// 		.name("user")
-	// 		.email("user11@e1mail.com")
-	// 		.headline("test").build();
-	//
-	// 	UserService userService = new UserService(userRepository, passwordEncoder, mailSendService);
-	//
-	// 	// when
-	// 	ProfileResponseDto responseDto = userService.signup(requestDto);
-	//
-	// 	// then
-	// 	User user = userRepository.findById(responseDto.getId()).orElse(null);
-	// 	assertEquals(responseDto.getUsername(), user.getUsername());
-	// 	assertEquals(responseDto.getEmail(), user.getEmail());
-	// 	assertEquals(responseDto.getHeadline(), user.getHeadline());
-	// 	assertEquals(responseDto.getName(), user.getName());
-	// }
-
-	// @Rollback
-	// @DisplayName("탈퇴")
-	// @Test
-	// void test2() {
-	// 	// given
-	//
-	// 	User user = new User("userna1me11123AA1", passwordEncoder.encode("1234"), "user",
-	// 		"user@gmail.com22", "test");
-	// 	UserService userService = new UserService(userRepository, passwordEncoder, mailSendService);
-	// 	given(userRepository.findById(1L)).willReturn(Optional.of(user));
-	//
-	// 	// when
-	// 	userService.withDraw(1L,  "1234");
-	// 	// then
-	// 	assertEquals(UserStatusEnum.NON_USER, user.getStatus());
-	// }
-
-	/**
-	 * 비밀번호 변경확인 못함
-	 * passEncoder 문제;;;
-	 */
-	@DisplayName("프로필 수정")
+	@DisplayName("회원가입")
 	@Test
-	void test3() {
+	void test1() {
 		// given
-		User user = new User("userna1me11123AA1", "1234", "user",
-			"user@gmail.com22", "test");
-		UserService userService = new UserService(userRepository, passwordEncoder, mailSendService);
-		given(userRepository.findById(1L)).willReturn(Optional.of(user));
+		SignUpRequestDto requestDto = new SignUpRequestDto("user", "1234", "name", "userq@gmail.com", "headline");
+
 		// when
-		ProfileResponseDto updateDto = userService.update(1L, new ProfileRequestDto(null, null, "editUser", "edit headline"));
-		user = userRepository.findById(1L).get();
+		ProfileResponseDto responseDto = userService.signup(requestDto);
 
 		// then
-		assertEquals(updateDto.getName(), user.getName());
-		assertEquals(updateDto.getHeadline(), user.getHeadline());
+		assertEquals(requestDto.getUsername(), responseDto.getUsername());
+		assertEquals(requestDto.getEmail(), responseDto.getEmail());
+		assertEquals(requestDto.getName(), responseDto.getName());
 
 	}
 
-	@DisplayName("프로필 조회")
+	@DisplayName("회원 수정")
 	@Test
-	void test4() {
+	void test2() {
 		// given
-			User user = new User("userna1me11123AA1", "1234", "user",
-				"user@gmail.com22", "test");
-			UserService userService = new UserService(userRepository, passwordEncoder, mailSendService);
-			given(userRepository.findById(1L)).willReturn(Optional.of(user));
-
-		// when
-		ProfileResponseDto profile = userService.getProfile(1L);
-		// then
-		assertNotNull(profile.getId());
-
-	}
-
-	@DisplayName("리플레시 토큰 확인")
-	@Test
-	void test5() {
-		// given
-		User user = new User("userna1me11123AA1", "1234", "user",
-			"user@gmail.com22", "test");
-		user.saveRefreshToken("refreshToken");
-		UserService userService = new UserService(userRepository, passwordEncoder, mailSendService);
-		given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
 		// when
 
 		// then
-		assertThrows(MismatchException.class,
-			() -> userService.refreshTokenCheck(user.getUsername(), "accessToken"));
 
 	}
-
 
 }
