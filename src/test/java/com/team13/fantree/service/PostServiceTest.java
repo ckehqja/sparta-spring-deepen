@@ -112,7 +112,6 @@ class PostServiceTest {
 
 	}
 
-
 	@Test
 	void test5() {
 		// given
