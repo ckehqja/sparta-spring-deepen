@@ -133,10 +133,26 @@ class PostServiceTest {
 		// given
 		List<PostResponseDto> allPostsPeriod = postService.findAllPostsPeriod(
 			LocalDate.of(2024, 06, 11),
-			LocalDate.of(2024, 06, 12), 0, 10);
+			LocalDate.of(2024, 06, 16), 0, 10);
 		// when
 
 		// then
+		for (PostResponseDto postResponseDto : allPostsPeriod) {
+			assertTrue(
+				postResponseDto.getCreateAt()
+					.toLocalDate()
+					.isAfter(
+						LocalDate.of(2024, 06, 11)
+					)
+			);
+			assertTrue(
+				postResponseDto.getCreateAt()
+					.toLocalDate()
+					.isBefore(
+						LocalDate.of(2024, 06, 16)
+					)
+			);
+		}
 
 	}
 
