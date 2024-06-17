@@ -2,7 +2,46 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.6'
     id 'io.spring.dependency-management' version '1.1.5'
+//    id 'jacoco'
 }
+
+//jacoco {
+//    toolVersion = "0.8.8" // 최신 버전 확인 및 업데이트
+//}
+//
+//test {
+//    useJUnitPlatform()
+//    finalizedBy jacocoTestReport // 테스트가 끝난 후 커버리지 보고서 생성
+//}
+//
+//jacocoTestReport {
+//    dependsOn test // 테스트 실행 후 커버리지 보고서 생성
+//    reports {
+//        xml.required.set(true)
+//        html.required.set(true)
+//    }
+//    afterEvaluate {
+//        classDirectories.setFrom(files(classDirectories.files.collect {
+//            fileTree(dir: it, exclude: [
+//                    'sun/util/resources/cldr/provider/CLDRLocaleDataMetaInfo.class',
+//                    // 추가로 제외할 클래스나 패키지 목록
+//            ])
+//        }))
+//    }
+//}
+//
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            limit {
+//                minimum = 0.5
+//            }
+//        }
+//    }
+//}
+//
+//check.dependsOn jacocoTestCoverageVerification
+
 
 group = 'com.team13'
 version = '0.0.1-SNAPSHOT'
